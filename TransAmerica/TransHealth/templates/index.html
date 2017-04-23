@@ -1,0 +1,76 @@
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+</head>
+<body ng-app="healthQuest">
+
+​
+
+<div ng-controller="healthForm">
+
+		<form >
+		    {% csrf_token %}
+			<div>
+			<input type="button" id= "google" value="Connect Google" ng-click="connectGoogle()">
+			<input type="button" id= "slice" value="Connect Slice" ng-click="connectSlice()">
+			</div>
+			<div>
+				<label for="salary">Current Salary:</label>
+				  <input id="salary" type="text" name="salary" ng-model="salary">
+			</div>
+			<div>
+				<label for="weight">Current Age:</label>
+				  <input id="age" type="text" name="age" ng-model="age">
+			</div>
+			<div>
+				<label for="weight">Current Weight:</label>
+				  <input id="weight" type="text" name="weight" ng-model="weight">
+			</div>
+			<div>
+				<label for="height">Current Height:</label>
+				  <input id="height" type="text" name="height" ng-model="height">
+			</div>
+			<div>
+				<input type="button" id= "Start Sim!" value="start" ng-click="startSim()">
+			</div>
+
+		</form>
+	</div>
+
+​
+<script type="text/javascript">
+// var app = angular.module('hey', []);
+angular.module("healthQuest",[]).controller("healthForm", function($scope, $http){
+$scope.startSim = function() {
+	alert("ey");
+	 	var data = {salary: $scope.salary, age: $scope.age, height: $scope.height, weight: $scope.weight  };
+        var config = {
+            headers : {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+            }
+        }
+        $http.post('/setInformation/', data, config)
+        .success(function (data, status, headers, config) {
+            $scope.result = data;
+        })
+        .error(function (data, status, header, config) {
+            $scope.result = "Data: " + data +
+                "<hr />status: " + status +
+                "<hr />headers: " + header +
+                "<hr />config: " + config;
+        });
+	console.log($scope.result);        
+        }
+        $scope.startSim();
+    });
+</script>
+</body>
+
+</html>
+
+​
+
